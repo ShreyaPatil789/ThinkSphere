@@ -1,0 +1,45 @@
+/* /pages/PublicProfile.css */
+
+.public-profile {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .public-profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .public-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid #ccc;
+  }
+  
+  .public-profile-blogs {
+    margin-top: 2rem;
+  }
+  
+  .public-blog-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  .public-blog-card h4 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .public-blog-card p {
+    margin-top: 0.5rem;
+    color: #555;
+  }
+  

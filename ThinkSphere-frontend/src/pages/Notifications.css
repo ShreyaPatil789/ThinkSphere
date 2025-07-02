@@ -1,0 +1,63 @@
+.notification-page {
+  min-height: 100vh;
+  width: 100vw;
+  background:url('./bg2.jpg');
+  object-fit: cover;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  
+   
+   margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .notification-page h2 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: beige;
+  }
+  
+  .notification-page p {
+    margin-bottom: 1rem;
+   
+    color: beige;
+  }
+  .notification-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .notification-page li {
+    background-color: #3a76d0;
+    border-left: 5px solid #007bff;
+    margin-bottom: 12px;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .notification-page li:hover {
+    background-color: #eef3ff;
+  }
+  
+  .notification-page li.unread {
+    font-weight: bold;
+    background-color: #e6f0ff;
+  }
+  
+  .notification-page li.read {
+    color: #555;
+  }
+  
+  .notification-page .time {
+    display: block;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 6px;
+  }
+  

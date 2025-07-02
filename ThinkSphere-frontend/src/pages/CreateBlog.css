@@ -1,0 +1,58 @@
+.create-blog-container {
+    min-height: 100vh;
+    width: 100vw;
+    background:url('./bg.jpg');
+    object-fit: cover;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  .create-blog-form {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .create-blog-form h2 {
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .create-blog-form input,
+  .create-blog-form textarea,
+  .create-blog-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  
+  .create-blog-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #bc6c25;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-blog-form button:hover {
+    background-color: #dda15e;
+  }
+  

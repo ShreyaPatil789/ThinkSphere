@@ -1,0 +1,235 @@
+
+
+
+.interaction-section {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 10px solid #3a5a40;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+
+  height: auto; /* 🔥 allow dynamic height */
+  overflow: hidden ; /* 🔥 show overflowing content */
+}
+.blog-card {
+  height: auto !important;
+  overflow-y: visible !important;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+}
+
+.blog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+
+/* Fix the profile image */
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.blog-header h3 {
+  font-weight: 700;
+  font-size:26px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ 
+  margin: 0;
+}
+
+
+.blog-title {
+  font-size: 26px !important;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+.blog-image {
+  display: block;
+  max-width: 100%; 
+  width: auto;    
+  height: 300px !important;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+
+
+.blog-content {
+  font-size: 20px !important; 
+  color: #201e1e;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+
+.read-more-btn {
+  background-color: #4f0147;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background-color: #3a5a40;
+}
+
+.heart-icon {
+  color: red;
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.2s, color 0.3s;
+}
+
+.heart-icon.liked {
+  color: red; /* This will color only the heart */
+}
+
+
+.heart-icon:active {
+  transform: scale(1.2);
+}
+
+
+
+
+.like-count {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .blog-card {
+    padding: 1rem;
+  }
+
+  .blog-title {
+    font-size: 1.25rem;
+  }
+
+  .blog-content {
+    font-size: 0.95rem;
+  }
+
+  .read-more-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+.interaction-section {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.comment-icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.comments-section {
+  margin-top: 10px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.add-comment {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.add-comment input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-comment button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #0077ff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
+.no-comments {
+  font-style: italic;
+  color: gray;
+}
+.single-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background-color: #f4f4f4;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.comment-left {
+  flex: 1;
+  overflow-wrap: break-word;
+}
+
+.delete-icon {
+  z-index: 10;
+  position: relative;
+  color: black;
+  cursor: pointer;
+  
+  background: white;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+
+
+/* BlogCard.css */
+.delete-icon:hover {
+  color: darkred;
+  transform: scale(1.1);
+}
+
+
+
+
