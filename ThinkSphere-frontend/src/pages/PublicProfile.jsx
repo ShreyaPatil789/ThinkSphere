@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ProfilePage.css"; // Reuse your existing styles
+import { API_BASE_URL } from "../config";
 
 const PublicProfilePage = () => {
   const { userId } = useParams();
@@ -20,7 +21,7 @@ const PublicProfilePage = () => {
   // Fetch logged in user info
   const fetchLoggedInUser = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/auth/profile", {
+    const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -33,7 +34,7 @@ const PublicProfilePage = () => {
   // Check if logged in user is following the public profile user
   const checkIfFollowing = async (token) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/is-following/${userId}`
+      const response = await fetch(`${API_BASE_URL}/api/auth/is-following/${userId}`
         , {
         method: "GET",
         headers: {
@@ -55,11 +56,11 @@ const PublicProfilePage = () => {
   // Fetch public profile and blogs
   const fetchPublicUserProfile = async () => {
     try {
-      const userRes = await fetch(`http://localhost:5000/api/blogs/public-profile/${userId}`);
+      const userRes = await fetch(`${API_BASE_URL}/api/blogs/public-profile/${userId}`);
       const userData = await userRes.json();
       setUser(userData);
 
-      const blogsRes = await fetch(`http://localhost:5000/api/blogs/user/${userId}`);
+      const blogsRes = await fetch(`${API_BASE_URL}/api/blogs/user/${userId}`);
       const blogsData = await blogsRes.json();
       setUserBlogs(blogsData);
 
@@ -75,7 +76,7 @@ const PublicProfilePage = () => {
   const handleFollow = async () => {
     const token = localStorage.getItem("token");
     try {
-      await fetch(`http://localhost:5000/api/auth/follow/${userId}`, {
+      await fetch(`${API_BASE_URL}/api/auth/follow/${userId}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -89,7 +90,7 @@ const PublicProfilePage = () => {
   const handleUnfollow = async () => {
     const token = localStorage.getItem("token");
     try {
-      await fetch(`http://localhost:5000/api/auth/unfollow/${userId}`, {
+      await fetch(`${API_BASE_URL}/api/auth/unfollow/${userId}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });

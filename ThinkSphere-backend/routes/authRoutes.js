@@ -16,8 +16,7 @@ router.post("/register", async (req, res) => {
         let user = await User.findOne({ email });
         if (user) return res.status(400).json({ error: "User already exists" });
 
-        console.log("Entered Password Before Saving:", password);
-
+        
         
         const newUser = new User({ 
             username, 
@@ -41,8 +40,7 @@ router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        console.log("Received email:", email); // Log the received email
-        console.log("Received password:", password); // Log the received password
+       
 
         const user = await User.findOne({ email });
         if (!user) {

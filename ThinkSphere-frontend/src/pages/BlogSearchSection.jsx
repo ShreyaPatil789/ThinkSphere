@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 import "./BlogSearchSection.css"; // Make sure the CSS is correctly imported
 
 const BlogSearchSection = ({ onResults }) => {
@@ -10,8 +11,8 @@ const BlogSearchSection = ({ onResults }) => {
     try {
       // Fetch search results and all blogs
       const [searchRes, allRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/blogs?search=${searchQuery}`),
-        axios.get(`http://localhost:5000/api/blogs`),
+        axios.get(`${API_BASE_URL}/api/blogs?search=${searchQuery}`),
+        axios.get(`${API_BASE_URL}/api/blogs`),
       ]);
 
       // Extract the IDs of the search results

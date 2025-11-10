@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./CreateBlog.css"; // Reuse the same CSS
+import { API_BASE_URL } from "../config";
 
 const EditBlog = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const EditBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        const res = await axios.get(`${API_BASE_URL}/api/blogs/${id}`);
         setBlog(res.data);
       } catch (err) {
         console.error("Failed to load blog:", err);
@@ -35,7 +36,7 @@ const EditBlog = () => {
     if (newImage) formData.append("image", newImage);
 
     try {
-      await axios.put(`http://localhost:5000/api/blogs/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/api/blogs/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

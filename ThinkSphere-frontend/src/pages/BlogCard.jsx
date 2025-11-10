@@ -7,6 +7,7 @@ import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const BlogCard = ({ blog, category }) => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const BlogCard = ({ blog, category }) => {
     try {
       // Make the API request to either add or remove a like
       const response = await axios.put(
-        `http://localhost:5000/api/blogs/${blog._id}/like`,
+        `${API_BASE_URL}/api/blogs/${blog._id}/like`,
         {},
         {
           headers: {
@@ -80,7 +81,7 @@ const BlogCard = ({ blog, category }) => {
     setShowComments((prev) => !prev);
    
     try {
-      const response = await axios.get(`http://localhost:5000/api/comments/${blog._id}`);
+      const response = await axios.get(`${API_BASE_URL}/api/comments/${blog._id}`);
       setComments(response.data);
     } catch (err) {
       console.error("Error fetching comments:", err);
@@ -101,7 +102,7 @@ const BlogCard = ({ blog, category }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/comments`,
+        `${API_BASE_URL}/api/comments`,
         { content: newComment, blogId: blog._id },
         {
           headers: {
@@ -128,7 +129,7 @@ const BlogCard = ({ blog, category }) => {
     if (!token) return alert("Login required");
   
     try {
-      await axios.delete(`http://localhost:5000/api/comments/${commentId}`, {
+      await axios.delete(`${API_BASE_URL}/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
   

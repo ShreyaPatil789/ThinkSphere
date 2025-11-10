@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./ProfilePage.css";
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from "../config";
 
 const ProfilePage = () => {
   const [user, setUser] = useState({});
@@ -57,7 +58,7 @@ const ProfilePage = () => {
     console.log("🎫 Token:", token);
 
     try {
-      const res = await fetch("http://localhost:5000/api/blogs/liked-blogs", {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/liked-blogs`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -82,14 +83,14 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/auth/profile", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await res.json();
       setUser(data);
       setEditableUser(data);
-      const blogsRes = await fetch(`http://localhost:5000/api/blogs/user/${data._id}`);
+      const blogsRes = await fetch(`${API_BASE_URL}/api/blogs/user/${data._id}`);
       const blogsData = await blogsRes.json();
       setUserBlogs(Array.isArray(blogsData) ? blogsData : []);
       setLoading(false);
@@ -103,7 +104,7 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem("token");
 
-      await fetch("http://localhost:5000/api/auth/profile/update", {
+      await fetch(`${API_BASE_URL}/api/auth/profile/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +132,7 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/auth/profile/upload-image", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/profile/upload-image`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -152,7 +153,7 @@ const ProfilePage = () => {
   const fetchFollowers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/followers", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/followers`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -167,7 +168,7 @@ const ProfilePage = () => {
   const fetchFollowing = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/following", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/following`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -183,7 +184,7 @@ const ProfilePage = () => {
   const handleDelete = async (blogId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:5000/api/blogs/${blogId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/${blogId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

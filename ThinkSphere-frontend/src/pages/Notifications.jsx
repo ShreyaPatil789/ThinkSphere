@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Notifications.css"; // optional styling
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -13,7 +14,7 @@ const Notifications = () => {
   const fetchNotifications = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:5000/api/notifications", {
+      const res = await fetch(`${API_BASE_URL}/api/notifications`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

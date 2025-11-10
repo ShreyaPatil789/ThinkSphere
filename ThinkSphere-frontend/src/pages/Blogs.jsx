@@ -5,6 +5,7 @@ import BlogSearchSection from "./BlogSearchSection"; // Add this
 import BlogCard from "./BlogCard";
 import "./Blogs.css";
 import { FaBell } from 'react-icons/fa';
+import { API_BASE_URL } from "../config";
 
 const Blogs = () => {
   const { category } = useParams();
@@ -30,8 +31,8 @@ const Blogs = () => {
       try {
         const response = await axios.get(
           category === "all"
-            ? `http://localhost:5000/api/blogs?search=${searchTerm}` // Include search term
-            : `http://localhost:5000/api/blogs?category=${category}&search=${searchTerm}` // Include category and search term
+            ? `${API_BASE_URL}/api/blogs?search=${searchTerm}`
+            : `${API_BASE_URL}/api/blogs?category=${category}&search=${searchTerm}`
         );
         setBlogs(response.data);
       } catch (error) {

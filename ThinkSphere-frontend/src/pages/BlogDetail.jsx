@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./BlogDetail.css";
+import { API_BASE_URL } from "../config";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/blogs/${id}`);
         setBlog(response.data);
       } catch (err) {
         console.error("Error fetching blog:", err);
