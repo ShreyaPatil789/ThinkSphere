@@ -4,26 +4,30 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 dotenv.config();
-console.log("Loaded JWT_SECRET:", process.env.JWT_SECRET);
 
 connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
-
+// Configure CORS to allow the deployed frontend
+const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+const corsOptions = {
+  origin: allowedOrigin,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // Serve images from the "uploads" folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/api/auth", require("./routes/authRoutes"));
-// or whatever the correct path is
-
 // Load Routes
-const authRoutes = require("./routes/authRoutes");  
+const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
-
 
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 
