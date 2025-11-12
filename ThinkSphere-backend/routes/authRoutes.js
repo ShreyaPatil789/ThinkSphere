@@ -1,9 +1,10 @@
 const express = require("express");
-const { authenticateUser, authorizeAdmin } = require("../middleware/authMiddleware"); // ✅ Import middleware
+const { authenticateUser, authorizeAdmin } = require("../middleware/authMiddleware"); // Import middleware
 const { uploadProfileImage } = require("../middleware/uploadMiddleware");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel"); 
+const Blog = require("../models/blogModel"); 
 
 const router = express.Router();
 
@@ -29,7 +30,11 @@ router.post("/register", async (req, res) => {
         res.status(201).json({ message: "User registered successfully!" });
 
     } catch (error) {
-        console.error("❌ Error in Registration:", error.message);
+        console.error("❌ Error in Registration:", error);
+        if (error && error.code === 11000) {
+            const field = Object.keys(error.keyPattern || {})[0] || "field";
+            return res.status(400).json({ error: `${field} already exists` });
+        }
         res.status(500).json({ error: "Server error" });
     }
 });
@@ -63,7 +68,7 @@ router.post("/login", async (req, res) => {
         res.status(200).json({
             message: "Login successful",
             token,
-            user: { userId: user._id, role: user.role },
+            user: { _id: user._id, username: user.username, email: user.email, role: user.role },
         });
 
     } catch (error) {

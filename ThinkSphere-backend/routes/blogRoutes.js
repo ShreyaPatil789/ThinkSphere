@@ -127,19 +127,6 @@ router.post("/", authenticateUser, uploadBlogImage.single("image"), async (req, 
 
     await blog.save();
     console.log("🖼️ Uploaded file:", req.file);
-
-
-    // Route to get blogs by a specific user's ID (for public profiles)
-router.get("/auth/:userId", async (req, res) => {
-  try {
-    const blogs = await Blog.find({ author: req.params.userId }).populate("author", "username");
-    res.status(200).json(blogs);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch blogs by user ID" });
-  }
-});
-
-
     // 🔔 Create notification for new blog (for followers or admin)
     // Optional: You can add notification here too
 
