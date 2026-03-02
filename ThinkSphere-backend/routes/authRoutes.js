@@ -1,8 +1,11 @@
 const express = require("express");
 const { authenticateUser, authorizeAdmin } = require("../middleware/authMiddleware"); // Import middleware
 const { uploadProfileImage } = require("../middleware/uploadMiddleware");
+const passport = require("passport");
+const jwt = require("jsonwebtoken"); // Removed duplicate import
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
+const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173"; // Added frontend URL configuration
 const User = require("../models/userModel"); 
 const Blog = require("../models/blogModel"); 
 
@@ -38,6 +41,25 @@ router.post("/register", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res) => {
+    const token = jwt.sign(
+      { userId: req.user._id, role: req.user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.redirect(`${frontendUrl}/google-success?token=${token}`);
+  }
+);
 
 
 // User Login Route

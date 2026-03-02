@@ -33,6 +33,20 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+const session = require("express-session");
+const passport = require("./config/passport");
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Serve images from the "uploads" folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

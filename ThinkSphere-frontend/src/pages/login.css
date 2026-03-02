@@ -127,6 +127,65 @@ html, body, #root {
     color:white;
 }
 
+/* OAuth Divider */
+.oauth-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0;
+    color: #8b8b8b;
+    font-size: 12px;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+/* Google Button */
+.google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    color: #1f1f1f;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.google-btn:hover {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.google-btn:active {
+    transform: translateY(1px);
+}
+
+.google-btn__icon {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 999px;
+}
+
+.google-btn__text {
+    line-height: 1;
+}
+
 /* Remember Me & Forgot Password */
 .options {
     display: flex;

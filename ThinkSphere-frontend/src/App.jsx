@@ -17,6 +17,7 @@ import BlogDetail from "./pages/BlogDetail";
 import Notifications from "./pages/Notifications";
 import EditBlog from "./pages/EditBlogs";
 import PublicProfilePage from './pages/PublicProfile';
+import GoogleSuccess from "./pages/GoogleSuccess";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<Welcome />} /> {/* Welcome Page as default */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/google-success" element={<GoogleSuccess />} />
          
           <Route path="/ModulePage" element={<ModulePage />} />
           <Route path="/About" element={<About />} />
