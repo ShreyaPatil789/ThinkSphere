@@ -1,0 +1,4 @@
+.env
+ThinkSphere-backend/.env
+ThinkSphere-frontend/src/config.js
+node_modules/
