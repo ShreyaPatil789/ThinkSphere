@@ -27,4 +27,4 @@ jobs:
           context: ./ThinkSphere-backend
           file: ./ThinkSphere-backend/Dockerfile
           push: true
-          tags: thinksphere/thinksphere-backend:${{ github.sha }}
+          tags: shreyapatil123/thinksphere-backend:${{ github.sha }}
