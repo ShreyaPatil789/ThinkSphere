@@ -1,0 +1,26 @@
+
+name: Deploy to EC2 using Docker
+
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Docker Login
+        uses: docker/login-action@v2 ##docker login
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./ThinkSphere-frontend
+          file: ./ThinkSphere-frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/thinksphere-frontend:${{ github.sha }}
