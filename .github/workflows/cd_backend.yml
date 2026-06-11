@@ -24,10 +24,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./ThinkSphere-backend
           file: ./ThinkSphere-backend/Dockerfile
           push: true
           tags: thinksphere/thinksphere-backend:${{ github.sha }}
-        
-        
-       
