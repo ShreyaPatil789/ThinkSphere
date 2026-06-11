@@ -1,30 +1,39 @@
-##Build the docker image
-## Push the docker image to docker hub
-## SSH into our VM and start the new image 
-
-
 name: Deploy to EC2 using Docker
 
 on:
   push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Docker Login
-        uses: docker/login-action@v2 ##docker login
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: ./ThinkSphere-backend
           file: ./ThinkSphere-backend/Dockerfile
           push: true
-          tags: shreyapatil123/thinksphere-backend:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/thinksphere-backend:${{ github.sha }}
+
+      - name: SSH and deploy to VM
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@${{ secrets.EC2_HOST }} "
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/thinksphere-backend:${{ github.sha }} &&
+            sudo docker stop thinksphere-backend || true &&
+            sudo docker rm thinksphere-backend || true &&
+            sudo docker run -d --name thinksphere-backend -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/thinksphere-backend:${{ github.sha }}
+          "
