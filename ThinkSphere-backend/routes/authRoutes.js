@@ -4,6 +4,8 @@ const { uploadProfileImage } = require("../middleware/uploadMiddleware");
 const passport = require("passport");
 const jwt = require("jsonwebtoken"); // Removed duplicate import
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const { sendMail } = require("../utils/mailer");
 
 const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173"; // Added frontend URL configuration
 const User = require("../models/userModel"); 
@@ -39,6 +41,109 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ error: `${field} already exists` });
         }
         res.status(500).json({ error: "Server error" });
+    }
+});
+
+router.post("/forgot-password/request-otp", async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).json({ error: "Email is required" });
+
+        const user = await User.findOne({ email });
+        if (!user) return res.status(200).json({ message: "If the account exists, an OTP was sent." });
+
+        const otp = String(Math.floor(100000 + Math.random() * 900000));
+        const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+        const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+        user.otpHash = otpHash;
+        user.otpExpiresAt = otpExpiresAt;
+        user.resetTokenHash = undefined;
+        user.resetTokenExpiresAt = undefined;
+        await user.save();
+
+        const subject = "Your ThinkSphere password reset OTP";
+        const text = `Your OTP is: ${otp}. It expires in 10 minutes.`;
+
+        await sendMail({ to: email, subject, text });
+
+        return res.status(200).json({ message: "If the account exists, an OTP was sent." });
+    } catch (error) {
+        console.error("Forgot password request OTP error:", error);
+        return res.status(500).json({ error: "Server error" });
+    }
+});
+
+router.post("/forgot-password/verify-otp", async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) return res.status(400).json({ error: "Email and OTP are required" });
+
+        const user = await User.findOne({ email });
+        if (!user || !user.otpHash || !user.otpExpiresAt) {
+            return res.status(400).json({ error: "Invalid OTP" });
+        }
+
+        if (user.otpExpiresAt.getTime() < Date.now()) {
+            return res.status(400).json({ error: "OTP expired" });
+        }
+
+        const providedHash = crypto.createHash("sha256").update(String(otp)).digest("hex");
+        if (providedHash !== user.otpHash) {
+            return res.status(400).json({ error: "Invalid OTP" });
+        }
+
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        const resetTokenHash = crypto.createHash("sha256").update(resetToken).digest("hex");
+        const resetTokenExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+        user.resetTokenHash = resetTokenHash;
+        user.resetTokenExpiresAt = resetTokenExpiresAt;
+        user.otpHash = undefined;
+        user.otpExpiresAt = undefined;
+        await user.save();
+
+        return res.status(200).json({ message: "OTP verified", resetToken });
+    } catch (error) {
+        console.error("Forgot password verify OTP error:", error);
+        return res.status(500).json({ error: "Server error" });
+    }
+});
+
+router.post("/forgot-password/reset", async (req, res) => {
+    try {
+        const { email, resetToken, newPassword } = req.body;
+        if (!email || !resetToken || !newPassword) {
+            return res.status(400).json({ error: "Email, resetToken, and newPassword are required" });
+        }
+
+        if (String(newPassword).length < 6) {
+            return res.status(400).json({ error: "Password must be at least 6 characters" });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user || !user.resetTokenHash || !user.resetTokenExpiresAt) {
+            return res.status(400).json({ error: "Invalid reset token" });
+        }
+
+        if (user.resetTokenExpiresAt.getTime() < Date.now()) {
+            return res.status(400).json({ error: "Reset token expired" });
+        }
+
+        const providedHash = crypto.createHash("sha256").update(String(resetToken)).digest("hex");
+        if (providedHash !== user.resetTokenHash) {
+            return res.status(400).json({ error: "Invalid reset token" });
+        }
+
+        user.password = newPassword;
+        user.resetTokenHash = undefined;
+        user.resetTokenExpiresAt = undefined;
+        await user.save();
+
+        return res.status(200).json({ message: "Password reset successful" });
+    } catch (error) {
+        console.error("Forgot password reset error:", error);
+        return res.status(500).json({ error: "Server error" });
     }
 });
 

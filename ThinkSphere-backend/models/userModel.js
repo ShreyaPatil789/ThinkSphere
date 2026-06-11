@@ -12,6 +12,10 @@ following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
      googleId: {
   type: String,
 },
+    otpHash: { type: String },
+    otpExpiresAt: { type: Date },
+    resetTokenHash: { type: String },
+    resetTokenExpiresAt: { type: Date },
     profileImage: { type: String, default: "" } // URL to the profile picture
 });
 

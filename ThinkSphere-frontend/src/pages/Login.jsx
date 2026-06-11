@@ -1,5 +1,6 @@
 import { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -85,7 +86,7 @@ export default function Login() {
             <label>
               <input type="checkbox" /> Remember me
             </label>
-            <a href="#">Forgot password?</a>
+            <Link to="/forgot-password">Forgot password?</Link>
           </div>
 
           <button className="login-btn" type="submit">Login</button>
