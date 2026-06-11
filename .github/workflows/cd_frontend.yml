@@ -24,3 +24,14 @@ jobs:
           file: ./ThinkSphere-frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/thinksphere-frontend:${{ github.sha }}
+
+
+      - name: SSH and deploy to VM
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@${{ secrets.EC2_HOST }} "
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/thinksphere-frontend:${{ github.sha }} &&
+            sudo docker stop thinksphere-frontend || true &&
+            sudo docker rm thinksphere-frontend || true &&
+            sudo docker run -d --name thinksphere-frontend -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/thinksphere-frontend:${{ github.sha }}      
